@@ -32,7 +32,6 @@
 #define DELAY5000 delay_ms(5000);
 
 int taster=12; //Taster 'T'
-int tasterstatus=0;
 int frequenz[11];
 int ton[6];
 
@@ -79,9 +78,7 @@ void setup()
 
 void loop()
 {
-  tasterstatus = digitalRead(taster);
-
-  if (tasterstatus == HIGH)
+  if (digitalRead(taster) == HIGH)
   {
     play();
   } 
