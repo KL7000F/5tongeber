@@ -34,7 +34,7 @@
 int taster=12; //Taster 'T'
 int tasterstatus=0;
 int frequenz[11];
-int ton[5];
+int ton[6];
 
 int tonfolge = 21705; //5-stelliger Integer - Bsp.: 21705
 char sirene = 'W'; //F = Feueralarm, W = Warnung der Bevölkerung, E = Entwarnung, P = Probealarm, A = ABC-Alarm, X = Kein Doppelton
