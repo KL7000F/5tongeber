@@ -1,7 +1,7 @@
 /*
  5-Ton Geber
  Erzeugt mithilfe von 'asmsynth' (https://github.com/ezasm/asmsynth) 5-Ton-Folgen (Selektivruf) nach ZVEI1 / TR-BOS.
- Sinn und Zweck ist die akustische Simulation. Die Einbindung in BOS-Netze ist untersagt.
+ Sinn und Zweck ist die akustische Simulation. Die Einbindung in BOS-Netze ist untersagt. Inkl. Random.
 
  Anschluss-Schema Arduino Nano:
  
@@ -35,14 +35,14 @@ int taster=12; //Taster 'T'
 int frequenz[11];
 int ton[6];
 
-int tonfolge = 21705; //5-stellige Schleife - Bsp.: 21705
-char sirene = 'W'; //F = Feueralarm, W = Warnung der Bevölkerung, E = Entwarnung, P = Probealarm, A = ABC-Alarm, X = Kein Doppelton
+int tonfolge = 27000; //5-stelliger Integer - Bsp.: 21705
+char sirene = 'X'; //F = Feueralarm, W = Warnung der Bevölkerung, E = Entwarnung, P = Probealarm, A = ABC-Alarm, X = Kein Doppelton
 
 byte counter;
 
 
 void setup()
-{
+{  
   synthSetup();
   stop();
   pinMode(taster, INPUT);
@@ -60,6 +60,15 @@ void setup()
   frequenz[9] = 2200;
   frequenz[10] = 2600; //Wiederholton R
 
+  fuenfton_random();
+}
+
+void fuenfton_random()
+{
+  int tonfolge_tmp = random(27001, 27220);
+  if (tonfolge_tmp < 27130) { sirene = 'F';};
+  if (tonfolge_tmp > 27129) { sirene = 'X';};
+  tonfolge = tonfolge_tmp;
 
   //Schleife (Ziffern) in Array schreiben
   ton[5] = tonfolge % 10;
@@ -75,11 +84,12 @@ void setup()
   if (ton[4] == ton[5]) { ton[5] = 10; };
 }
 
-
 void loop()
 {
   if (digitalRead(taster) == HIGH)
   {
+    randomSeed(millis());
+    fuenfton_random();
     play();
   } 
 }
